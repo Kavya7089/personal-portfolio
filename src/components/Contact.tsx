@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, FormEvent } from 'react';
 import { motion, useInView, useAnimation } from 'framer-motion';
 import { Mail, Linkedin, Github, Send } from 'lucide-react';
+import emailjs from 'emailjs-com';
 
 const Contact: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -33,18 +34,13 @@ const Contact: React.FC = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     
-    // Clear error when user types
     if (errors[name as keyof typeof errors]) {
       setErrors((prev) => ({ ...prev, [name]: '' }));
     }
   };
 
   const validateForm = () => {
-    const newErrors = {
-      name: '',
-      email: '',
-      message: '',
-    };
+    const newErrors = { name: '', email: '', message: '' };
     let isValid = true;
 
     if (!formData.name.trim()) {
@@ -74,30 +70,29 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    
     if (!validateForm()) return;
-    
+
     setIsSubmitting(true);
-    
+
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      
-      // Reset form
+      await emailjs.send(
+        "service_s4yc3uv",   // replace with your EmailJS service ID
+        "template_yngz23o",  // replace with your EmailJS template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+        },
+        "Sm2fiRfpY5wG6b3VD"    // replace with your EmailJS public key
+      );
+
       setFormData({ name: '', email: '', message: '' });
       setSubmitStatus('success');
-      
-      // Reset success message after 5 seconds
-      setTimeout(() => {
-        setSubmitStatus('idle');
-      }, 5000);
+      setTimeout(() => setSubmitStatus('idle'), 5000);
     } catch (error) {
+      console.error("EmailJS Error:", error);
       setSubmitStatus('error');
-      
-      // Reset error message after 5 seconds
-      setTimeout(() => {
-        setSubmitStatus('idle');
-      }, 5000);
+      setTimeout(() => setSubmitStatus('idle'), 5000);
     } finally {
       setIsSubmitting(false);
     }
@@ -107,9 +102,7 @@ const Contact: React.FC = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.2 },
     },
   };
 
@@ -118,7 +111,7 @@ const Contact: React.FC = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5 }
+      transition: { duration: 0.5 },
     },
   };
 
@@ -155,22 +148,12 @@ const Contact: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
-          >
-            <motion.h3 
-              variants={itemVariants}
-              className="text-2xl font-bold mb-6 text-gray-900 dark:text-white"
-            >
+          <motion.div variants={containerVariants} initial="hidden" animate={controls}>
+            <motion.h3 variants={itemVariants} className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
               Contact Information
             </motion.h3>
             
-            <motion.p 
-              variants={itemVariants}
-              className="text-gray-700 dark:text-gray-300 mb-8"
-            >
+            <motion.p variants={itemVariants} className="text-gray-700 dark:text-gray-300 mb-8">
               I'm currently available for freelance work and open to discussing new opportunities. Let's connect and bring your ideas to life!
             </motion.p>
             
@@ -203,15 +186,8 @@ const Contact: React.FC = () => {
             </motion.div>
           </motion.div>
           
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls}
-          >
-            <motion.h3 
-              variants={itemVariants}
-              className="text-2xl font-bold mb-6 text-gray-900 dark:text-white"
-            >
+          <motion.div variants={containerVariants} initial="hidden" animate={controls}>
+            <motion.h3 variants={itemVariants} className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
               Send Me a Message
             </motion.h3>
             
@@ -234,9 +210,7 @@ const Contact: React.FC = () => {
                   className={`w-full px-4 py-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors`}
                   placeholder="Your name"
                 />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
-                )}
+                {errors.name && <p className="mt-1 text-sm text-red-500">{errors.name}</p>}
               </motion.div>
               
               <motion.div variants={itemVariants}>
@@ -252,9 +226,7 @@ const Contact: React.FC = () => {
                   className={`w-full px-4 py-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors`}
                   placeholder="Your email"
                 />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-                )}
+                {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email}</p>}
               </motion.div>
               
               <motion.div variants={itemVariants}>
@@ -270,9 +242,7 @@ const Contact: React.FC = () => {
                   className={`w-full px-4 py-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors`}
                   placeholder="Your message"
                 />
-                {errors.message && (
-                  <p className="mt-1 text-sm text-red-500">{errors.message}</p>
-                )}
+                {errors.message && <p className="mt-1 text-sm text-red-500">{errors.message}</p>}
               </motion.div>
               
               <motion.div variants={itemVariants}>
@@ -285,8 +255,8 @@ const Contact: React.FC = () => {
                 >
                   {isSubmitting ? (
                     <>
-                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white\" xmlns="http://www.w3.org/2000/svg\" fill="none\" viewBox="0 0 24 24">
-                        <circle className="opacity-25\" cx="12\" cy="12\" r="10\" stroke="currentColor\" strokeWidth="4"></circle>
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
                       Sending...
