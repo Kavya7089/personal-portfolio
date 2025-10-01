@@ -35,7 +35,7 @@ export const projects: Project[] = [
     id: 3,
     title: "Tradiverse : a platform for Preserving Culture Through Technology",
     description: "a platform where you Connect with artisans from around the world, explore authentic cultural artifacts, and help preserve traditional heritage.",
-    technologies: ["React", "node.js", "Tailwind CSS","Unity 3D", "cargo Stylus"],
+    technologies: ["React", "node.js", "Tailwind CSS","Unity 3D", "jwt"],
     images: [
       "https://images.pexels.com/photos/3243090/pexels-photo-3243090.jpeg",
       "https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg",
