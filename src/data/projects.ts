@@ -15,6 +15,11 @@ import TV2 from './public/TV2.png';
 import TV3 from './public/TV3.png';
 import TV4 from './public/TV4.png';
 import TV5 from './public/TV5.png';
+import TS1 from './public/TS1.png';
+import TS2 from './public/TS2.png';
+import TS3 from './public/TS3.png';
+import TS4 from './public/TS4.png';
+import TS5 from './public/TS5.png';
 
 
 export const projects: Project[] = [
@@ -38,13 +43,15 @@ export const projects: Project[] = [
   },
   {
     id: 2,
-    title: "AI tour guide",
-    description: "An interactive AI-powered tour guide that provides users with personalized recommendations and information about various locations.",
-    technologies: ["React", "TypeScript", "OpenAI API", "Tailwind CSS", "Flask","Google map api"],
+    title: "TripSecure: AI-Powered Interactive safety Tour Guide",
+    description: "ASmart Tourist Safety and Assistance Ecosystem that uses AI, Blockchain, Geo-fencing, and real-time community support. Its aim is to protect tourists during emergencies while also helping them plan, track, and improve their travel experience.",
+    technologies: ["React", "TypeScript", "OpenAI API", "Tailwind CSS", "Flask","Google map api","react-Native", "Blockchain"],
     images: [
-      "https://images.pexels.com/photos/1118873/pexels-photo-1118873.jpeg",
-      "https://images.pexels.com/photos/1755683/pexels-photo-1755683.jpeg",
-      "https://images.pexels.com/photos/3888585/pexels-photo-3888585.jpeg"
+      TS1,
+      TS2,
+      TS3,
+      TS4,
+      TS5
     ],
     github: "https://github.com/Kavya7089/hackazards-ai",
     demoVideo: "https://youtu.be/8M7A2lD9qRo?si=ovzF1vaodBOsOF8P",
