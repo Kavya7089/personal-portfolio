@@ -82,34 +82,39 @@ const About: React.FC = () => {
                 <span className="text-primary-600 dark:text-primary-400 font-medium">12+</span>
                 <p className="text-sm text-gray-600 dark:text-gray-300">Projects Completed</p>
               </div>
-              <div className="bg-white dark:bg-gray-700 px-4 py-2 rounded-lg shadow-sm">
-                <span className="text-primary-600 dark:text-primary-400 font-medium">15+</span>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Hackathon Participation</p>
+              
+              <div className="backdrop-blur-md bg-white/10 px-4 py-2 rounded-lg shadow-[0_0_20px_rgba(0,0,0,0.3)] border border-white/5">
+                <span className="text-secondary-400 font-medium">15+</span>
+                <p className="text-sm text-gray-300">Hackathons</p>
               </div>
             </motion.div>
           </motion.div>
           
-          <div className="order-1 lg:order-2 h-80 lg:h-96">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate={mainControls}
+            className="order-1 lg:order-2 h-80 lg:h-96 relative w-full rounded-[2rem] overflow-hidden backdrop-blur-3xl bg-black/40 border border-white/10 shadow-[0_0_40px_rgba(100,100,255,0.1)] group flex items-center justify-center cursor-grab active:cursor-grabbing"
+          >
             <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-              <ambientLight intensity={0.7} />
-              <pointLight position={[10, 10, 10]} intensity={1.5} />
+              <ambientLight intensity={1} />
+              <pointLight position={[10, 10, 10]} intensity={1.5} color="#8800ff" />
+              <pointLight position={[-10, -10, -10]} intensity={1} color="#00ff88" />
               <Float 
-                speed={1.5} 
-                rotationIntensity={0.5} 
-                floatIntensity={0.5}
+                speed={2.5} 
+                rotationIntensity={0.6} 
+                floatIntensity={0.6}
               >
-                <FloatingLaptop position={[0, 0, 0]} scale={1.5} />
+                <FloatingLaptop position={[0, -0.2, 0]} scale={1.8} />
               </Float>
               <OrbitControls 
                 enableZoom={false} 
                 enablePan={false}
-                autoRotate 
-                autoRotateSpeed={0.5}
-                minPolarAngle={Math.PI / 3}
-                maxPolarAngle={Math.PI / 1.5}
+                autoRotate
+                autoRotateSpeed={1}
               />
             </Canvas>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

@@ -5,13 +5,29 @@
 html {
   scroll-behavior: smooth;
 }
+::-webkit-scrollbar{
+  display: none;
+}
 
 body {
   font-family: 'Inter', sans-serif;
-  @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-white;
+  @apply text-white;
+  background-color: transparent !important;
 }
 
-h1, h2, h3, h4, h5, h6 {
+/* Force backgrounds to be translucent to reveal 3D scene */
+#root,
+main,
+section {
+  background-color: transparent !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Manrope', sans-serif;
 }
 
@@ -22,8 +38,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Hide scrollbar for IE, Edge, and Firefox */
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* Smooth transitions for dark mode */

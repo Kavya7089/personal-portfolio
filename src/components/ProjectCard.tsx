@@ -26,33 +26,34 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
     <motion.div
       variants={cardVariants}
       whileHover="hover"
-      className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col h-full"
+      className="backdrop-blur-2xl bg-black/40 border border-white/20 rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_8px_32px_rgba(100,100,255,0.3)] hover:border-white/40 transition-all duration-500 flex flex-col h-full group cursor-pointer"
     >
       <div 
-        className="relative h-48 overflow-hidden cursor-pointer"
+        className="relative  h-48 overflow-hidden cursor-pointer"
         onClick={onClick}
       >
         <img 
           src={project.images[0]} 
           alt={project.title} 
-          className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60" />
         {project.featured && (
-          <div className="absolute top-4 right-4 bg-primary-600 text-white text-xs px-2 py-1 rounded-md">
+          <div className="absolute top-4 right-4 backdrop-blur-md bg-primary-600/80 border border-primary-400/50 text-white text-xs px-3 py-1.5 rounded-full font-medium shadow-lg">
             Featured
           </div>
         )}
       </div>
       
-      <div className="p-6 flex-grow">
+      <div className="p-6 flex-grow relative z-10">
         <h3 
-          className="text-xl font-bold mb-2 text-gray-900 dark:text-white cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+          className="text-2xl font-bold mb-3 text-gray-900 dark:text-white cursor-pointer group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors"
           onClick={onClick}
         >
           {project.title}
         </h3>
         
-        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+        <p className="text-gray-700 dark:text-gray-300 mb-6 line-clamp-3 leading-relaxed">
           {project.description}
         </p>
         
@@ -60,13 +61,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, onClick }) => {
           {project.technologies.slice(0, 3).map((tech, index) => (
             <span 
               key={index} 
-              className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-2 py-1 rounded-md"
+              className="text-xs font-medium backdrop-blur-md bg-black/5 dark:bg-white/10 text-gray-800 dark:text-gray-200 px-3 py-1.5 rounded-full border border-gray-200/50 dark:border-white/10 shadow-sm"
             >
               {tech}
             </span>
           ))}
           {project.technologies.length > 3 && (
-            <span className="text-xs bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-2 py-1 rounded-md">
+            <span className="text-xs font-medium backdrop-blur-md bg-black/5 dark:bg-white/10 text-gray-800 dark:text-gray-200 px-3 py-1.5 rounded-full border border-gray-200/50 dark:border-white/10 shadow-sm">
               +{project.technologies.length - 3} more
             </span>
           )}

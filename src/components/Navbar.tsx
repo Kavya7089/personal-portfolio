@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Moon, Sun, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 
-interface NavbarProps {
-  darkMode: boolean;
-  toggleDarkMode: () => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
+const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -29,9 +24,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
 
   const navbarClasses = `fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
     scrolled
-      ? darkMode
-        ? 'bg-gray-900/90 backdrop-blur-md shadow-lg'
-        : 'bg-white/90 backdrop-blur-md shadow-lg'
+      ? 'bg-gray-900/90 backdrop-blur-md shadow-lg border-b border-white/5'
       : 'bg-transparent'
   }`;
 
@@ -56,7 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
           >
             <a 
               href="#hero" 
-              className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}
+              className="text-xl font-bold text-white hover:text-primary-400 transition-colors"
             >
               Kavya Rajoria
             </a>
@@ -73,9 +66,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
               <motion.li key={link.name} whileHover={{ y: -2 }}>
                 <a
                   href={link.href}
-                  className={`text-sm font-medium transition-colors ${
-                    darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-primary-600'
-                  }`}
+                  className="text-sm font-medium transition-colors text-gray-300 hover:text-white"
                 >
                   {link.name}
                 </a>
@@ -87,26 +78,14 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
-              onClick={toggleDarkMode}
-              className={`p-2 rounded-full ${
-                darkMode ? 'bg-gray-800 text-yellow-300' : 'bg-gray-100 text-gray-700'
-              }`}
-              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-            >
-              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
               onClick={toggleMobileMenu}
               className="p-2 md:hidden"
               aria-label="Toggle mobile menu"
             >
               {mobileMenuOpen ? (
-                <X className={darkMode ? 'text-white' : 'text-gray-900'} size={24} />
+                <X className="text-white" size={24} />
               ) : (
-                <Menu className={darkMode ? 'text-white' : 'text-gray-900'} size={24} />
+                <Menu className="text-white" size={24} />
               )}
             </motion.button>
           </div>
@@ -119,7 +98,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className={`md:hidden ${darkMode ? 'bg-gray-900' : 'bg-white'} px-6 py-4`}
+          className="md:hidden bg-gray-900 border-t border-white/5 px-6 py-4 shadow-xl"
         >
           <ul className="space-y-4">
             {navLinks.map((link) => (
@@ -127,9 +106,7 @@ const Navbar: React.FC<NavbarProps> = ({ darkMode, toggleDarkMode }) => {
                 <a
                   href={link.href}
                   onClick={toggleMobileMenu}
-                  className={`block text-base font-medium ${
-                    darkMode ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-primary-600'
-                  }`}
+                  className="block text-base font-medium text-gray-300 hover:text-white"
                 >
                   {link.name}
                 </a>

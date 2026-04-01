@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { AnimatePresence } from 'framer-motion';
+import { Canvas } from '@react-three/fiber';
+import { Preload } from '@react-three/drei';
+import Scene from './components/3d/Scene';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -12,7 +15,6 @@ import Cursor from './components/Cursor';
 import { Project } from './types';
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -20,24 +22,15 @@ function App() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    
+
+    // Lock in dark mode permanently
+    document.documentElement.classList.add('dark');
+
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
 
   const openProject = (project: Project) => {
     setSelectedProject(project);
@@ -50,28 +43,44 @@ function App() {
   };
 
   return (
-    <div className={`${darkMode ? 'dark bg-gray-900' : 'bg-white'} min-h-screen transition-colors duration-300`}>
-      {!isMobile && <Cursor />}
-      <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects openProject={openProject} />
-        <Gallery />
-        <Contact />
-      </main>
-      
-      <AnimatePresence>
-        {selectedProject && (
-          <ProjectModal 
-            project={selectedProject} 
-            onClose={closeProject} 
-          />
-        )}
-      </AnimatePresence>
-    </div>
+    <>
+      {/* 3D Antigravity Background Scene */}
+      <div className="fixed inset-0 z-0 pointer-events-auto">
+        <Canvas shadows camera={{ position: [0, 0, 5], fov: 45 }}>
+          <Suspense fallback={null}>
+            <Scene />
+            <Preload all />
+          </Suspense>
+        </Canvas>
+      </div>
+
+      {/* Main Content Overlay */}
+      <div className="relative z-10 dark text-white min-h-screen transition-colors duration-300 pointer-events-none">
+        {/* Enable pointer events on children so user can interact with both layers */}
+        <div className="pointer-events-auto">
+          {!isMobile && <Cursor />}
+          <Navbar />
+
+          <main className="px-4 md:px-12 lg:px-24">
+            <Hero />
+            <About />
+            <Skills />
+            <Projects openProject={openProject} />
+            <Gallery />
+            <Contact />
+          </main>
+
+          <AnimatePresence>
+            {selectedProject && (
+              <ProjectModal
+                project={selectedProject}
+                onClose={closeProject}
+              />
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </>
   );
 }
 
